@@ -1,0 +1,20 @@
+#download data_file from NCBI
+prefetch --option-file SRR_Acc_List.txt
+
+#to obtain sra files
+##build a bash file
+vim sra_fastq.sh
+
+#! /bin/bash
+
+###list all sra files
+for i in *sra  
+do
+echo fastq-dump --gzip --split-3 $i -O /cluster/home/luzhenzhen/batch/download/sra/fastq ## -O output files address
+done >sra_fastq.sh
+
+##check bash file
+cat sra_fastq.sh  
+
+#submit nohup
+nohup bash sra_fastq.sh > sra_fastq.log &
