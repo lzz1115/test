@@ -47,3 +47,10 @@ sbatch 1019.sh
 bash 1024-1.sh
 ##submit bash file
 sbatch 1024-1.sh
+
+##remove blacklist
+bash 1024-2.sh
+##submit bash file
+sbatch 1024-2.sh
+
+
