@@ -38,9 +38,12 @@ nohup bash trim.sh & >trim.log
 
 #INDUCE-seq
 ##*reference address: /cluster/apps/Refs/references/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta
-##build a bash file
+##build a bash file(aligment)
 bash 1019.sh
-
+##submit bash file
 sbatch 1019.sh
 
-
+##sort
+bash 1024-1.sh
+##submit bash file
+sbatch 1024-1.sh
