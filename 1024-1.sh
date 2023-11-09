@@ -22,7 +22,7 @@ BAM=/cluster/groups/Jan-Lab/luzhenzhen/"$experiment"/preprocessing/BAM
 SAM=/cluster/groups/Jan-Lab/luzhenzhen/"$experiment"/preprocessing/SAM
 BED=/cluster/groups/Jan-Lab/luzhenzhen/"$experiment"/preprocessing/BEM
 
-awk '$6 !~ /[0-9]S/{print}' "$SAM"/"$experiment".sam | samtools view -Shu -q "$quality" -F 256 - |
+awk '$6 !~ /[0-9]S/{print}' "$tmpdir"/"$experiment".sam | samtools view -Shu -q "$quality" -F 256 - |
   samtools sort -m 4G - -o "$BAM"/"$experiment".q30.srt.bam
   samtools index "$BAM"/"$experiment".q30.srt.bam
 
