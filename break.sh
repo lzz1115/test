@@ -5,7 +5,7 @@ clear
 method=INDUCE_SEQ
 platform=NEXTSEQ550
 FASTQ=/cluster/home/luzhenzhen/rowdata/1208result/FASTQ/af_trimmed/FASTQ #修改地址
-SUM=/cluster/home/luzhenzhen/batch/download/summary
+SUM=/cluster/home/luzhenzhen/rowdata/1208result/FASTQ/af_trimmed/FASTQ/summary #修改地址
 blacklist=/cluster/home/luzhenzhen/batch/accessory_files/hg19-blacklist.v2.bed
 chromsizes=/cluster/home/luzhenzhen/batch/accessory_files/hg19.chrom.sizes.bed
 chromends=/cluster/home/luzhenzhen/batch/accessory_files/hg19.chrom.ends.bed
@@ -13,7 +13,7 @@ refseq=/cluster/home/luzhenzhen/batch/download/index/Homo_sapiens_assembly38.fas
 quality=1 #quality=30
 threads=16
 
-for file in "$FASTQ"/*_trimmed.fq.gz; do
+for file in "$FASTQ"/*.fq.gz; do
 filename=$(echo "$file" | awk -F'[/]' '{print $10}') #按地址修改数值
 experiment=$(echo "$filename" | awk -F'[_]' '{print $1}')
 
@@ -35,10 +35,10 @@ awk 'NR==1{p=$2;q=$3;next}    #p=tile and q=y coordinate
 sed 's/_/ /g' |
 awk -v BED="$BED" '{ if (($7 == 0 || $7 == 1) && $8 <= 40 && $8 >= -40)
 {print $1, $2, $3, $4, $5, $6 > BED"/optical_duplicates.txt"}
-else {print $1, $2, $3, $4, $5, $6}}' OFS="\t" > "$BED"/"$experiment".breakends.bed
+else {print $1, $2, $3, $4, $5, $6}}' OFS="\t" > "$BED"/"$experiment"_1.breakends.bed
 
 # Flatten breakends files using bedtools merge and count breaks at each unique location
-bedtools merge -s -c 2,6 -o count,distinct -i "$BED"/"$experiment".breakends.bed | awk -v var="$experiment" '{print $1,$2,$3,var"_"(FNR FS),$5,$4}' OFS="\t" "$BED"/"$experiment".breakends.bed> "$BED"/"$experiment".breakcount.bed
+bedtools merge -s -c 2,6 -o count,distinct -i "$BED"/"$experiment"_1.breakends.bed | awk -v var="$experiment" '{print $1,$2,$3,var"_"(FNR FS),$5,$4}' OFS="\t" "$BED"/"$experiment"_1.breakends.bed> "$BED"/"$experiment"_1.breakcount.bed
 
 echo "Breakcounts files ready for secondary analysis"
 
