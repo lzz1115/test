@@ -13,7 +13,7 @@ refseq=/cluster/home/luzhenzhen/batch/download/index/Homo_sapiens_assembly38.fas
 quality=1 #quality=30
 threads=16
 
-for file in "$FASTQ"/*_trimmed.fq.gz; do
+for file in "$FASTQ"/*fq.gz; do
 filename=$(echo "$file" | awk -F'[/]' '{print $10}') #根据地址修改数值
 experiment=$(echo "$filename" | awk -F'[_]' '{print $1}')
 
@@ -59,3 +59,5 @@ echo "Histogram breaks/location and number of locations:" >> "$summaryfile"
 awk '{printf "%0.0f\n", $5 }' "$BED"/"$experiment"_1.breakcount.bed | sort -k1,1n | uniq -c | awk '{print $2,$1}' >> "$summaryfile"
 # Move summary file to top-level summary folder for easy access
 cp "$summaryfile" summary/"$experiment"_1.summary.txt
+
+done
