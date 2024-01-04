@@ -13,7 +13,7 @@ refseq=/cluster/home/luzhenzhen/batch/download/index/Homo_sapiens_assembly38.fas
 quality=1 #quality=30
 threads=16
 
-for file in "$FASTQ"/*.fq.gz; do
+for file in "$FASTQ"/*fq.gz; do
 filename=$(echo "$file" | awk -F'[/]' '{print $10}') #按地址修改数值
 experiment=$(echo "$filename" | awk -F'[_]' '{print $1}')
 
