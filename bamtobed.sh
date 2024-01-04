@@ -5,7 +5,7 @@ clear
 method=INDUCE_SEQ
 platform=NEXTSEQ550
 FASTQ=/cluster/home/luzhenzhen/rowdata/1208result/FASTQ/af_trimmed/FASTQ #修改地址
-SUM=/cluster/home/luzhenzhen/batch/download/summary
+SUM=/cluster/home/luzhenzhen/rowdata/1208result/FASTQ/af_trimmed/FASTQ/summary #修改地址
 blacklist=/cluster/home/luzhenzhen/batch/accessory_files/hg19-blacklist.v2.bed
 chromsizes=/cluster/home/luzhenzhen/batch/accessory_files/hg19.chrom.sizes.bed
 chromends=/cluster/home/luzhenzhen/batch/accessory_files/hg19.chrom.ends.bed
@@ -13,7 +13,7 @@ refseq=/cluster/home/luzhenzhen/batch/download/index/Homo_sapiens_assembly38.fas
 quality=1 #quality=30
 threads=16
 
-for file in "$FASTQ"/*_fq.fq.gz; do
+for file in "$FASTQ"/*fq.gz; do
 filename=$(echo "$file" | awk -F'[/]' '{print $10}')
 experiment=$(echo "$filename" | awk -F'[_]' '{print $1}')
 
