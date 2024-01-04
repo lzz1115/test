@@ -8,7 +8,7 @@ BAM=BAM
 SAM=SAM
 BED=BED
 FASTQ=/cluster/home/luzhenzhen/rowdata/1208result/FASTQ/af_trimmed/FASTQ #修改地址
-SUM=summary
+SUM=/cluster/home/luzhenzhen/rowdata/1208result/FASTQ/af_trimmed/FASTQ/summary #修改地址
 tmpdir=tmpdir
 blacklist=/cluster/home/luzhenzhen/batch/accessory_files/hg19-blacklist.v2.bed
 chromsizes=/cluster/home/luzhenzhen/batch/accessory_files/hg19.chrom.sizes.bed
@@ -18,7 +18,7 @@ quality=1 #quality=30
 threads=16
 
 #Detect FASTQ files
-for file in "$FASTQ"/*_fq.fq.gz; do (
+for file in "$FASTQ"/*fq.gz; do (
 filename=$(echo "$file" | awk -F'[/]' '{print $10}')# $几：要根据文件地址修改
 echo "$filename" >> filelist.txt
 experiment=$(echo "$filename" | awk -F'[_]' '{print $1}')
@@ -40,10 +40,10 @@ tmpdir=/cluster/groups/Jan-Lab/luzhenzhen/"$experiment"/preprocessing/"$tmpdir"
 mkdir -p /cluster/home/luzhenzhen/batch/download/summary
 
 # ALIGNMENT
-if [[ ! -e "$SAM"/"$experiment".sam && ! -e "$tmpdir"/"$experiment".sam ]]; then
+if [[ ! -e "$SAM"/"$experiment"_1.sam && ! -e "$tmpdir"/"$experiment"_1.sam ]]; then
   bwa mem -M -R '@RG\tID:"$method"\tPL:"$platform"\tPU:0\tLB:"$method"\tSM:"$experiment"' "$refseq" "$FASTQ"/"$experiment"_R1_val_1.fq.gz "$FASTQ"/"$experiment"_R2_val_2.fq.gz > "$tmpdir"/"$experiment".sam
 
-awk '$6 !~ /[0-9]S/{print}' "$tmpdir"/"$experiment".sam | samtools view -Shu -q "$quality" -F 256 - |
+awk '$6 !~ /[0-9]S/{print}' "$tmpdir"/"$experiment"_1.sam | samtools view -Shu -q "$quality" -F 256 - |
   samtools sort -m 4G - -o "$BAM"/"$experiment".q1.srt.bam
   samtools index "$BAM"/"$experiment".q1.srt.bam
   mv "$tmpdir"/"$experiment"_1.sam "$SAM"/"$experiment"_1.sam
